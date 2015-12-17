@@ -2,3 +2,4 @@ vendor/
 .env
 .buildpath
 .settings/
+.project
