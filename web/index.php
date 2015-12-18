@@ -12,10 +12,12 @@ $sqs = new SqsClient([
 $queueList = $sqs->listQueues();
 
 foreach($queueList->get('QueueUrls') as $queueUrl){
+    echo 'QueueUrl : ';
     echo $queueUrl;
+    echo '<br/>';
 }
 
-print_r($queueList);
+//print_r($queueList);
 
 // -------------------------------------------------------------- //
 $queueUrl = "https://sqs.us-west-2.amazonaws.com/521301825182/sqs";
@@ -27,13 +29,12 @@ $queueUrl = "https://sqs.us-west-2.amazonaws.com/521301825182/sqs";
 
 $messageResult = $sqs->receiveMessage(array(
     'QueueUrl'              => $queueUrl,
-    "MaxNumberOfMessages"   => 1
+    "MaxNumberOfMessages"   => 5
 ));
 
 foreach($messageResult->getPath('Messages') as $messages){
-    print_r($messages);
-    echo '<br/>';
-    echo '<br/>';
+    //print_r($messages);
+    echo 'Message : ';
     echo $messages['Body'];
     echo '<br/>';
     echo $messages['ReceiptHandle'];
