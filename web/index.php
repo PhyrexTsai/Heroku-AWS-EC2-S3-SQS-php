@@ -23,7 +23,8 @@ $result = $sqs->receiveMessage(array(
     "MaxNumberOfMessages"   => 1
 ));
 
-print_r($result);
-echo "done";
+foreach($result->getPath('Messages') as $messages){
+    print_r($messages);
+}
 
 ?>
