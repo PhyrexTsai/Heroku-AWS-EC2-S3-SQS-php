@@ -23,10 +23,11 @@ $result = $sqs->receiveMessage(array(
 
 foreach($result->getPath('Messages') as $messages){
     print_r($messages);
-    //
+    echo '<br/>';
+    echo '<br/>';
     echo $messages['Body'];
     echo '<br/>';
-    //echo $messages['ReceiptHandle'];
+    echo $messages['ReceiptHandle'];
     echo '<br/>';
 }
 
