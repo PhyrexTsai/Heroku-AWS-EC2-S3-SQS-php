@@ -26,7 +26,7 @@ foreach($result->getPath('Messages') as $messages){
     //
     echo $messages['Body'];
     echo '<br/>';
-    echo $messages['ReceiptHandle'];
+    //echo $messages['ReceiptHandle'];
     echo '<br/>';
 }
 
