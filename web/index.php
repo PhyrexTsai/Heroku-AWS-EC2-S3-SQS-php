@@ -4,6 +4,13 @@ require('config.php');
 require('../vendor/autoload.php');
 use Aws\Sqs\SqsClient;
 
+/**
+ * 1. Upload interface to put image to S3, same time use SQS send message to "inbox"
+ * 2. EC2 detect the SQS "inbox", if have new message then process thumbnail image from S3
+ * 3. After EC2 finished then using SQS send message to "outbox"
+ * 4. Download interface will receive the massage to show the link to the S3
+ */
+
 $sqs = new SqsClient([
     'version' => SQS_VERSION,
     'region'  => SQS_REGION
@@ -21,7 +28,7 @@ foreach($queueList->get('QueueUrls') as $queueUrl){
 
 // -------------------------------------------------------------- //
 
-$sqs->sendMessage(array(
+/*$sqs->sendMessage(array(
     'QueueUrl'      => SQS_INBOX,
     'MessageBody'   => 'Submit a message to Thumbnail image',
     'MessageAttributes' => array(
@@ -33,7 +40,7 @@ $sqs->sendMessage(array(
         ),
         // ... repeated
     ),
-));
+));*/
 /*
 $messageResult = $sqs->receiveMessage(array(
     'QueueUrl'              => $queueUrl,
