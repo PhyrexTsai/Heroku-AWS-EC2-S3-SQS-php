@@ -15,6 +15,11 @@ $queueUrl = "https://sqs.us-west-2.amazonaws.com/521301825182/sqs";
     'QueueUrl'      => $queueUrl,
     'MessageBody'   => 'An awsome message !',
 ));*/
+$queuelist = $sqs->listQueues(array(
+    'QueueNamePrefix'   => 'string',
+));
+
+print_r($queuelist);
 
 $result = $sqs->receiveMessage(array(
     'QueueUrl'              => $queueUrl,
