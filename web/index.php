@@ -11,8 +11,6 @@ $sqs = new SqsClient([
 
 $queueUrl = "https://sqs.us-west-2.amazonaws.com/521301825182/sqs";
 
-echo $sqs->getRegion();
-
 /*$sqs->sendMessage(array(
     'QueueUrl'      => $queueUrl,
     'MessageBody'   => 'An awsome message !',
@@ -24,6 +22,7 @@ $result = $sqs->receiveMessage(array(
 ));
 
 foreach($result->getPath('Messages') as $messages){
+    print_r($messages);
     echo $messages['Body'];
 }
 
