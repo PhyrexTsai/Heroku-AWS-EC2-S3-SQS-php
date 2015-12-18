@@ -1,2 +1,27 @@
 <?php
-echo 'hi';
+header("Content-type: text/html; charset=utf-8");
+require('config.php');
+require('../vendor/autoload.php');
+use Aws\Sqs\SqsClient;
+
+$sqs = new SqsClient([
+    'version' => SQS_VERSION,
+    'region'  => SQS_REGION
+]);
+
+$queueUrl = "https://sqs.us-west-2.amazonaws.com/521301825182/sqs";
+
+$sqs->sendMessage(array(
+    'QueueUrl'      => $queueUrl,
+    'MessageBody'   => 'An awsome message !',
+));
+
+$result = $sqs->receiveMessage(array(
+    'QueueUrl'  => $queueUrl,
+    'WaitTimeSeconds' => 5,
+));
+
+foreach($result->getPath('Messages/*/Body') as $messageBody){
+    echo $messageBody;
+}
+?>
