@@ -9,22 +9,28 @@ $sqs = new SqsClient([
     'region'  => SQS_REGION
 ]);
 
+$queueList = $sqs->listQueues();
+
+foreach($queueList->get('QueueUrls') as $queueUrl){
+    echo $queueUrl;
+}
+
+print_r($queueList);
+
+// -------------------------------------------------------------- //
 $queueUrl = "https://sqs.us-west-2.amazonaws.com/521301825182/sqs";
 
 /*$sqs->sendMessage(array(
-    'QueueUrl'      => $queueUrl,
-    'MessageBody'   => 'An awsome message !',
+ 'QueueUrl'      => $queueUrl,
+ 'MessageBody'   => 'An awsome message !',
 ));*/
-$queuelist = $sqs->listQueues();
 
-print_r($queuelist);
-
-$result = $sqs->receiveMessage(array(
+$messageResult = $sqs->receiveMessage(array(
     'QueueUrl'              => $queueUrl,
     "MaxNumberOfMessages"   => 1
 ));
 
-foreach($result->getPath('Messages') as $messages){
+foreach($messageResult->getPath('Messages') as $messages){
     print_r($messages);
     echo '<br/>';
     echo '<br/>';
