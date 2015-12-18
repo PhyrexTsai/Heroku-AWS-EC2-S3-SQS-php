@@ -9,4 +9,6 @@ define("AWS_SECRET_ACCESS_KEY", $secret);
 //define("S3_BUCKET", $default_bucket);
 define("SQS_VERSION", "latest");
 define("SQS_REGION", "us-west-2");
+define("SQS_INBOX", "https://sqs.us-west-2.amazonaws.com/521301825182/inbox");
+define("SQS_OUTBOX", "https://sqs.us-west-2.amazonaws.com/521301825182/outbox");
 ?>

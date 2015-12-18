@@ -9,24 +9,32 @@ $sqs = new SqsClient([
     'region'  => SQS_REGION
 ]);
 
-$queueList = $sqs->listQueues();
+/*$queueList = $sqs->listQueues();
 
 foreach($queueList->get('QueueUrls') as $queueUrl){
     echo 'QueueUrl : ';
     echo $queueUrl;
     echo '<br/>';
-}
+}*/
 
 //print_r($queueList);
 
 // -------------------------------------------------------------- //
-$queueUrl = "https://sqs.us-west-2.amazonaws.com/521301825182/sqs";
 
-/*$sqs->sendMessage(array(
- 'QueueUrl'      => $queueUrl,
- 'MessageBody'   => 'An awsome message !',
-));*/
-
+$sqs->sendMessage(array(
+    'QueueUrl'      => SQS_INBOX,
+    'MessageBody'   => 'Submit a message to Thumbnail image',
+    'MessageAttributes' => array(
+        // Associative array of custom 'String' key names
+        'thumbnail' => array(
+            'StringValue' => 'image_name',
+            // DataType is required
+            'DataType' => 'String',
+        ),
+        // ... repeated
+    ),
+));
+/*
 $messageResult = $sqs->receiveMessage(array(
     'QueueUrl'              => $queueUrl,
     "MaxNumberOfMessages"   => 5
@@ -40,5 +48,5 @@ foreach($messageResult->getPath('Messages') as $messages){
     echo $messages['ReceiptHandle'];
     echo '<br/>';
 }
-
+*/
 ?>
