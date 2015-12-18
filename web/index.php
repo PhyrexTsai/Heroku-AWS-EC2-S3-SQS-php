@@ -19,10 +19,11 @@ echo $sqs->getRegion();
 ));*/
 
 $result = $sqs->receiveMessage(array(
-    'QueueUrl'  => $queueUrl,
+    'QueueUrl'              => $queueUrl,
+    "MaxNumberOfMessages"   => 1
 ));
 
-foreach($result->getPath('Messages/*/Body') as $messageBody){
-    echo $messageBody;
-}
+print_r($result);
+echo "done";
+
 ?>
