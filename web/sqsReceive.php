@@ -20,7 +20,7 @@ foreach($queueList->get('QueueUrls') as $queueUrl){
 //print_r($queueList);
 
 $messageResult = $sqs->receiveMessage(array(
-    'QueueUrl'              => SQS_OUTBOX,
+    'QueueUrl'              => SQS_INBOX,
     "MaxNumberOfMessages"   => 1
 ));
 
