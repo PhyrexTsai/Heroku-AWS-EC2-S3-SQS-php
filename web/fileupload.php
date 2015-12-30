@@ -97,15 +97,15 @@ if(!empty($_POST['submit'])){
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="fileupload.php">Upload Page <span class="sr-only">(current)</span></a></li>
-					<li><a href="filedownload.php">Download Page</a></li>
+					<li class="active"><a href="fileupload.php">Upload<span class="sr-only">(current)</span></a></li>
+					<li><a href="filedownload.php">Show result</a></li>
 				</ul>
 			</div>
 		</div>
 	</nav>
 	<div class="row">
     	<div class="col-md-1"></div>
-    	<div class="col-md-10"><h2>Upload File to AWS S3</h2></div>
+    	<div class="col-md-10"><h2>Upload File To Resize</h2></div>
     	<div class="col-md-1"></div>
     </div>
 	<div class="row">
@@ -130,7 +130,7 @@ if(!empty($_POST['submit'])){
                 <label for="exampleInputFile">File upload</label>
                 <input type="file" name="uploadfile" id="exampleInputFile" class="form-control">
             </div>
-    	    <input type="submit" name="submit" class="btn btn-primary" value="Upload Image" />
+    	    <input type="submit" name="submit" class="btn btn-primary" value="Upload" />
     	</form>
     	</div>
     	<div class="col-md-1"></div>

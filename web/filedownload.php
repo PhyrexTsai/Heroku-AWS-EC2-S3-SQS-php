@@ -3,10 +3,16 @@ header("Content-type: text/html; charset=utf-8");
 require('config.php');
 require('../vendor/autoload.php');
 use Aws\S3\S3Client;
+use Aws\Sqs\SqsClient;
 
 $s3 = new S3Client([
     'version' => S3_VERSION,
     'region'  => S3_REGION
+]);
+
+$sqs = new SqsClient([
+    'version' => SQS_VERSION,
+    'region'  => SQS_REGION
 ]);
 
 if($s3->doesObjectExist(S3_BUCKET, IMAGELIST_FILE)){
@@ -45,15 +51,15 @@ if($s3->doesObjectExist(S3_BUCKET, IMAGELIST_FILE)){
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li><a href="fileupload.php">Upload Page</a></li>
-					<li class="active"><a href="filedownload.php">Download Page <span class="sr-only">(current)</span></a></li>
+					<li><a href="fileupload.php">Upload</a></li>
+					<li class="active"><a href="filedownload.php">Show Result<span class="sr-only">(current)</span></a></li>
 				</ul>
 			</div>
 		</div>
 	</nav>
 	<div class="row">
     	<div class="col-md-1"></div>
-    	<div class="col-md-10"><h2>Files in Redis</h2></div>
+    	<div class="col-md-10"><h2>Resize Files</h2></div>
     	<div class="col-md-1"></div>
     </div>
 	<div class="row">
@@ -65,17 +71,15 @@ if($s3->doesObjectExist(S3_BUCKET, IMAGELIST_FILE)){
                     <th>File Name</th>
                     <th>File type</th>
                     <th>File size</th>
-                    <th>File</th>
-                    <th>Place</th>
+                    <th>Normal Link</th>
+                    <th>Small Link</th>
                 </tr>
             <?php 
         	   //foreach($arList as $num => $key){
                foreach($lines as $key){
                    if($key != ''){
                        // only exsist on AWS S3
-                       $splitKey = preg_split("/@#@/", $key);
                        
-                       $filedata = $redis->get($key);
                        $bucket = $splitKey[4];
                        $filename = $splitKey[0];
                        $filetype = $splitKey[1];
@@ -86,7 +90,7 @@ if($s3->doesObjectExist(S3_BUCKET, IMAGELIST_FILE)){
                        echo '<td>'.$filetype.'</td>';
                        echo '<td>'.$filesize.'</td>';
                        echo '<td><a href="https://s3-us-west-2.amazonaws.com/'.$bucket.'/'.$filename.'"><img src="https://s3-us-west-2.amazonaws.com/'.$bucket.'/'.$filename.'" width="100" /></a></td>';
-                       echo '<td>AWS S3</td>';
+                       echo '<td></td>';
                        echo '</tr>';
                    }
         	   }
