@@ -15,7 +15,7 @@ $sqs = new SqsClient([
     'region'  => SQS_REGION
 ]);
 
-$message = "";
+//$message = "";
 if(!empty($_POST['submit'])){
     if(!empty($_FILES["uploadfile"])){
         $filename = $_FILES["uploadfile"]["name"];
@@ -42,7 +42,7 @@ if(!empty($_POST['submit'])){
                         'DataType' => 'String',
                     ),
                     's3bucket' => array(
-                        'StringValue' => S3_PATH,
+                        'StringValue' => $bucket,
                         'DataType' => 'String',
                     ),
                     'filename' => array(
