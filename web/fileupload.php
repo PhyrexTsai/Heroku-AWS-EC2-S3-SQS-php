@@ -37,23 +37,26 @@ if(!empty($_POST['submit'])){
                 'QueueUrl'      => SQS_INBOX,
                 'MessageBody'   => 'Resize file',
                 'MessageAttributes' => array(
-                    // Associative array of custom 'String' key names
-                    'filepath' => array(
+                    's3path' => array(
                         'StringValue' => S3_PATH,
-                        // DataType is required
+                        'DataType' => 'String',
+                    ),
+                    's3bucket' => array(
+                        'StringValue' => S3_PATH,
                         'DataType' => 'String',
                     ),
                     'filename' => array(
                         'StringValue' => $filename,
-                        // DataType is required
                         'DataType' => 'String',
                     ),
                     'filetype' => array(
                         'StringValue' => $filetype,
-                        // DataType is required
+                        'DataType' => 'String',
+                    ),
+                    'filesize' => array(
+                        'StringValue' => $filesize,
                         'DataType' => 'String',
                     )
-                    // ... repeated
                 ),
             ));
         } catch (Aws\Exception\S3Exception $e) {
@@ -71,7 +74,7 @@ if(!empty($_POST['submit'])){
 <html>
 <head>
 <meta charset="utf-8">
-<title>Homework 3</title>
+<title>AWS EC2 S3 SQS</title>
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
 <script	src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
