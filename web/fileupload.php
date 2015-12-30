@@ -17,7 +17,7 @@ $sqs = new SqsClient([
 
 $message = "";
 if(!empty($_POST['submit'])){
-    imageSubmit($s3, $sqs);
+    $message = imageSubmit($s3, $sqs);
 }
 
 function imageSubmit($s3, $sqs) {
@@ -72,6 +72,7 @@ function imageSubmit($s3, $sqs) {
     }else{
         $message .= "Something went wrong while uploading file... sorry.\r\n";
     }
+    return $message;
 }
 
 
