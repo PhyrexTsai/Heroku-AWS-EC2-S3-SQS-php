@@ -5,6 +5,11 @@ require('../vendor/autoload.php');
 use Aws\S3\S3Client;
 use Aws\Sqs\SqsClient;
 
+$s3 = new S3Client([
+    'version' => S3_VERSION,
+    'region'  => S3_REGION
+]);
+
 $sqs = new SqsClient([
     'version' => SQS_VERSION,
     'region'  => SQS_REGION
@@ -12,15 +17,11 @@ $sqs = new SqsClient([
 
 $message = "";
 if(!empty($_POST['submit'])){
-    imageSubmit();
+    imageSubmit($s3, $sqs);
 }
 
-function imageSubmit() {
+function imageSubmit($s3, $sqs) {
     if(!empty($_FILES["uploadfile"])){
-        $s3 = new S3Client([
-            'version' => S3_VERSION,
-            'region'  => S3_REGION
-        ]);
         $filename = $_FILES["uploadfile"]["name"];
         $file = $_FILES["uploadfile"]["tmp_name"];
         $filetype = $_FILES["uploadfile"]["type"];
