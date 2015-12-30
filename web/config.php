@@ -6,6 +6,8 @@ $default_bucket = getenv('S3_BUCKET')?: die('No "S3_BUCKET" config var in found 
 define("DATA_SEPARATOR", "@#@");
 define("AWS_ACCESS_KEY_ID", $key);
 define("AWS_SECRET_ACCESS_KEY", $secret);
+define("S3_VERSION", "latest");
+define("S3_REGION", "us-west-2");
 define("S3_BUCKET", $default_bucket);
 define("S3_PATH", "https://s3-us-west-2.amazonaws.com/".$default_bucket."/");
 define("SQS_VERSION", "latest");
