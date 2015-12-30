@@ -3,7 +3,6 @@ $key = getenv('AWS_ACCESS_KEY_ID')?: die('No "AWS_ACCESS_KEY_ID" config var in f
 $secret = getenv('AWS_SECRET_ACCESS_KEY')?: die('No "AWS_SECRET_ACCESS_KEY" config var in found in env!');
 $default_bucket = getenv('S3_BUCKET')?: die('No "S3_BUCKET" config var in found in env!');
 
-define("DATA_SEPARATOR", "@#@");
 define("AWS_ACCESS_KEY_ID", $key);
 define("AWS_SECRET_ACCESS_KEY", $secret);
 define("S3_VERSION", "latest");
