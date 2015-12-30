@@ -4,8 +4,6 @@ require('config.php');
 require('../vendor/autoload.php');
 use Aws\S3\S3Client;
 
-$redis = new Predis\Client(getenv('REDIS_URL'));
-
 $s3 = new S3Client([
     'version' => S3_VERSION,
     'region'  => S3_REGION
@@ -71,27 +69,9 @@ if($s3->doesObjectExist(S3_BUCKET, IMAGELIST_FILE)){
                     <th>Place</th>
                 </tr>
             <?php 
-               $arList = $redis->keys("*");
         	   //foreach($arList as $num => $key){
                foreach($lines as $key){
-                   if($redis->exists($key)){
-                       // redis exsist
-            	       $splitKey = preg_split("/@#@/", $key);
-            	       
-            	       $filedata = $redis->get($key);
-            	       $bucket = $splitKey[4];
-            	       $filename = $splitKey[0];
-            	       $filetype = $splitKey[1];
-            	       $filesize = $splitKey[2];
-            	       echo '<tr>';
-            	       echo '<td>'.$bucket.'</td>';
-            	       echo '<td>'.$filename.'</td>';
-            	       echo '<td>'.$filetype.'</td>';
-            	       echo '<td>'.$filesize.'</td>';
-            	       echo '<td><a href="https://s3-us-west-2.amazonaws.com/'.$bucket.'/'.$filename.'"><img src="data:image/jpeg;base64,' . $filedata . '" width="100" /></a></td>';
-            	       echo '<td>Redis</td>';
-            	       echo '</tr>';
-                   }else if($key != ''){
+                   if($key != ''){
                        // only exsist on AWS S3
                        $splitKey = preg_split("/@#@/", $key);
                        

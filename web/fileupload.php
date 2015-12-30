@@ -32,12 +32,6 @@ if(!empty($_POST['submit'])){
                 'Body'   => $filedata,
                 'ACL'    => 'public-read',  // use read
             ]);
-            $message .= "Successfully uploaded file.\r\n";
-            
-            $sqs = new SqsClient([
-                'version' => SQS_VERSION,
-                'region'  => SQS_REGION
-            ]);
             
             $result = $sqs->sendMessage(array(
                 'QueueUrl'      => SQS_INBOX,
