@@ -7,6 +7,7 @@ define("DATA_SEPARATOR", "@#@");
 define("AWS_ACCESS_KEY_ID", $key);
 define("AWS_SECRET_ACCESS_KEY", $secret);
 define("S3_BUCKET", $default_bucket);
+define("S3_PATH", "https://s3-us-west-2.amazonaws.com/".$default_bucket."/");
 define("SQS_VERSION", "latest");
 define("SQS_REGION", "us-west-2");
 define("SQS_INBOX", "https://sqs.us-west-2.amazonaws.com/521301825182/inbox");
