@@ -25,7 +25,7 @@ $messageResult = $sqs->receiveMessage(array(
 ));
 
 foreach($messageResult->getPath('Messages') as $messages){
-    //print_r($messages);
+    print_r($messages);
     echo 'Message : ';
     echo $messages['Body'];
     echo '<br/>';
