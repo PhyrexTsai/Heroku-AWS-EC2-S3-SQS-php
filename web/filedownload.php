@@ -99,7 +99,7 @@ if($messageResult->getPath('Messages') != ''){
                     $txtbody = $txtfile['Body'];
                     $lines = explode(PHP_EOL, $txtbody);
                     foreach($lines as $key){
-                        if(trim(key) != ''){
+                        if(trim($key) != ''){
                             $tag = preg_split("/######/", $key);
                             echo '<tr>';
                             echo '<td>'.$bucket['Name'].'</td>';
