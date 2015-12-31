@@ -90,11 +90,12 @@ if($messageResult->getPath('Messages') != ''){
             <?php 
             $result = $s3->listBuckets();
             foreach ($result['Buckets'] as $bucket) {
+                echo $bucket['Name'].'<br/>';
                 // Each Bucket value will contain a Name and CreationDate
-                if($s3->doesObjectExist($bucket['Name'], IMAGELIST_FILE)){
+                if($s3->doesObjectExist($bucket['Name'], SMALLIMAGELIST_FILE)){
                     $txtfile = $s3->getObject([
                         'Bucket'    => $bucket['Name'],
-                        'Key'       => IMAGELIST_FILE
+                        'Key'       => SMALLIMAGELIST_FILE
                     ]);
                     $txtbody = $txtfile['Body'];
                     $lines = explode(PHP_EOL, $txtbody);

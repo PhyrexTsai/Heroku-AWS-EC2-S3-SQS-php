@@ -13,4 +13,5 @@ define("SQS_VERSION", "latest");
 define("SQS_REGION", "us-west-2");
 define("SQS_INBOX", "https://sqs.us-west-2.amazonaws.com/521301825182/inbox");
 define("SQS_OUTBOX", "https://sqs.us-west-2.amazonaws.com/521301825182/outbox");
+define("SMALLIMAGELIST_FILE", "smallimagelist.txt");
 ?>
