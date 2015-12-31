@@ -105,7 +105,7 @@ if($messageResult->getPath('Messages') != ''){
                             echo '<td>'.$bucket['Name'].'</td>';
                             echo '<td>'.$tag[1].'</td>';
                             echo '<td><a href="'.S3_PATH.$bucket['Name'].'/'.$tag[1].'">Click</a></td>';
-                            echo '<td><img src="'.S3_PATH.$bucket['Name'].'/'.$tag[2].'"/></td>';
+                            echo '<td><a href="'.S3_PATH.$bucket['Name'].'/'.$tag[2].'"><img src="'.S3_PATH.$bucket['Name'].'/'.$tag[2].'"/></a></td>';
                             echo '</tr>';
                         }
                     }
