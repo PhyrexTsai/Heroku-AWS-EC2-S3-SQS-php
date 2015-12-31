@@ -91,13 +91,12 @@ if($messageResult->getPath('Messages') != ''){
             $result = $s3->listBuckets();
             foreach ($result['Buckets'] as $bucket) {
                 // Each Bucket value will contain a Name and CreationDate
-                echo $s3->doesObjectExist($bucket['Name'], SMALLIMAGELIST_FILE);
                 if($s3->doesObjectExist($bucket['Name'], SMALLIMAGELIST_FILE)){
-                    echo '#';
                     $txtfile = $s3->getObject([
                         'Bucket'    => $bucket['Name'],
                         'Key'       => SMALLIMAGELIST_FILE
                     ]);
+                    print_r($txtfile);
                     $txtbody = $txtfile['Body'];
                     $lines = explode(PHP_EOL, $txtbody);
                     $tag = split('######', $lines);
