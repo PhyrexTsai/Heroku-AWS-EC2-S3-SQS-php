@@ -98,14 +98,15 @@ if($messageResult->getPath('Messages') != ''){
                     ]);
                     $txtbody = $txtfile['Body'];
                     $lines = explode(PHP_EOL, $txtbody);
-                    echo $lines.'<br/>';
-                    $tag = preg_split("/######/", $lines);
-                    echo '<tr>';
-                    echo '<td>'.$bucket['Name'].'</td>';
-                    echo '<td>'.$tag[1].'</td>';
-                    echo '<td><a href="'.S3_PATH.$attr['s3bucket'].'/'.$tag[1].'">Link</a></td>';
-                    echo '<td><img src="'.S3_PATH.$attr['s3bucket'].'/'.$tag[2].'"/></td>';
-                    echo '</tr>';
+                    foreach($lines as $key){
+                        $tag = preg_split("/######/", $key);
+                        echo '<tr>';
+                        echo '<td>'.$bucket['Name'].'</td>';
+                        echo '<td>'.$tag[1].'</td>';
+                        echo '<td><a href="'.S3_PATH.$attr['s3bucket'].'/'.$tag[1].'">Link</a></td>';
+                        echo '<td><img src="'.S3_PATH.$attr['s3bucket'].'/'.$tag[2].'"/></td>';
+                        echo '</tr>';
+                    }
                 }
             }
             ?>
