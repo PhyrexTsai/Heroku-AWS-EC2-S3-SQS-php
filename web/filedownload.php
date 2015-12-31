@@ -2,13 +2,7 @@
 header("Content-type: text/html; charset=utf-8");
 require('config.php');
 require('../vendor/autoload.php');
-use Aws\S3\S3Client;
 use Aws\Sqs\SqsClient;
-
-$s3 = new S3Client([
-    'version' => S3_VERSION,
-    'region'  => S3_REGION
-]);
 
 $sqs = new SqsClient([
     'version' => SQS_VERSION,
@@ -70,6 +64,7 @@ $messageResult = $sqs->receiveMessage(array(
                     <th>Small Link</th>
                 </tr>
             <?php 
+            print_r($messageResult);
             if($messageResult->getPath('Messages') != ''){
                 foreach($messageResult->getPath('Messages') as $messages){
                     $attr = array();
