@@ -15,20 +15,17 @@ $sqs = new SqsClient([
     'region'  => SQS_REGION
 ]);
 
-if($s3->doesObjectExist(S3_BUCKET, IMAGELIST_FILE)){
-    $txtfile = $s3->getObject([
-        'Bucket'    => S3_BUCKET,
-        'Key'       => IMAGELIST_FILE
-    ]);
-    $txtbody = $txtfile['Body'];
-    $lines = explode(PHP_EOL, $txtbody);
-}
+$messageResult = $sqs->receiveMessage(array(
+    'QueueUrl'              => SQS_OUTBOX,
+    'MessageAttributeNames' => array('s3path','s3bucket','filename','smallfilename')
+));
+
 ?>
 <!doctype html>
 <html>
 <head>
 <meta charset="utf-8">
-<title>Homework 3</title>
+<title>AWS EC2 S3 SQS</title>
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
 <script	src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
@@ -69,31 +66,28 @@ if($s3->doesObjectExist(S3_BUCKET, IMAGELIST_FILE)){
                 <tr>
                     <th>Bucket</th>
                     <th>File Name</th>
-                    <th>File type</th>
-                    <th>File size</th>
                     <th>Normal Link</th>
                     <th>Small Link</th>
                 </tr>
             <?php 
-        	   //foreach($arList as $num => $key){
-               foreach($lines as $key){
-                   if($key != ''){
-                       // only exsist on AWS S3
-                       
-                       $bucket = $splitKey[4];
-                       $filename = $splitKey[0];
-                       $filetype = $splitKey[1];
-                       $filesize = $splitKey[2];
-                       echo '<tr>';
-                       echo '<td>'.$bucket.'</td>';
-                       echo '<td>'.$filename.'</td>';
-                       echo '<td>'.$filetype.'</td>';
-                       echo '<td>'.$filesize.'</td>';
-                       echo '<td><a href="https://s3-us-west-2.amazonaws.com/'.$bucket.'/'.$filename.'"><img src="https://s3-us-west-2.amazonaws.com/'.$bucket.'/'.$filename.'" width="100" /></a></td>';
-                       echo '<td></td>';
-                       echo '</tr>';
-                   }
-        	   }
+            if($messageResult->getPath('Messages') != ''){
+                foreach($messageResult->getPath('Messages') as $messages){
+                    $attr = array();
+                    if($messages['Body'] == 'Resize file'){
+                        $messageId = $messages['MessageId'];
+                        foreach($messages['MessageAttributes'] as $key => $value){
+                            $attr[$key] = $value['StringValue'];
+                        }
+                    }
+            
+                    echo '<tr>';
+                    echo '<td>'.$attr['s3bucket'].'</td>';
+                    echo '<td>'.$attr['filename'].'</td>';
+                    echo '<td><a href="'.$attr['s3path'].$attr['s3bucket'].'/'.$attr['filename'].'">Link</a></td>';
+                    echo '<td><img src="'.$attr['s3path'].$attr['s3bucket'].'/'.$attr['smallfilename'].'"/></td>';
+                    echo '</tr>';
+                }
+            }
             ?>
     	    </table>
     	
