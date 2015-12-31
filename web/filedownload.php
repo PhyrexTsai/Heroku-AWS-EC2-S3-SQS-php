@@ -99,7 +99,7 @@ if($messageResult->getPath('Messages') != ''){
                     $txtbody = $txtfile['Body'];
                     $lines = explode(PHP_EOL, $txtbody);
                     echo $lines.'<br/>';
-                    $tag = split('######', $lines);
+                    $tag = preg_split("/######/", $lines);
                     echo '<tr>';
                     echo '<td>'.$bucket['Name'].'</td>';
                     echo '<td>'.$tag[1].'</td>';
