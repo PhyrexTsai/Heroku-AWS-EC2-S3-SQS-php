@@ -64,11 +64,13 @@ $messageResult = $sqs->receiveMessage(array(
                     <th>Small Link</th>
                 </tr>
             <?php 
+            print_r($messageResult);
             if($messageResult->getPath('Messages') != ''){
                 foreach($messageResult->getPath('Messages') as $messages){
                     $attr = array();
                     foreach($messages['MessageAttributes'] as $key => $value){
                         $attr[$key] = $value['StringValue'];
+                        echo $key.','.$value['StringValue'];
                     }
 
                     echo '<tr>';
