@@ -96,9 +96,9 @@ if($messageResult->getPath('Messages') != ''){
                         'Bucket'    => $bucket['Name'],
                         'Key'       => SMALLIMAGELIST_FILE
                     ]);
-                    print_r($txtfile);
                     $txtbody = $txtfile['Body'];
                     $lines = explode(PHP_EOL, $txtbody);
+                    echo $lines.'<br/>';
                     $tag = split('######', $lines);
                     echo '<tr>';
                     echo '<td>'.$bucket['Name'].'</td>';
