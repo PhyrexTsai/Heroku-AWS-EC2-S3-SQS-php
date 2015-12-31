@@ -3,6 +3,12 @@ header("Content-type: text/html; charset=utf-8");
 require('config.php');
 require('../vendor/autoload.php');
 use Aws\Sqs\SqsClient;
+use Aws\S3\S3Client;
+
+$s3 = new S3Client([
+    'version' => S3_VERSION,
+    'region'  => S3_REGION
+]);
 
 $sqs = new SqsClient([
     'version' => SQS_VERSION,
@@ -11,9 +17,24 @@ $sqs = new SqsClient([
 
 $messageResult = $sqs->receiveMessage(array(
     'QueueUrl'              => SQS_OUTBOX,
+    'MaxNumberOfMessages'   => 10,
     'MessageAttributeNames' => array('s3path','s3bucket','filename','smallfilename')
 ));
-
+$message = "";
+if($messageResult->getPath('Messages') != ''){
+    foreach($messageResult->getPath('Messages') as $messages){
+        $attr = array();
+        $receiptHandle = $messages['ReceiptHandle']; 
+        foreach($messages['MessageAttributes'] as $key => $value){
+            $attr[$key] = $value['StringValue'];
+            $message = $attr['filename']." Resize Done.<br/>";
+        }
+        $sqs->deleteMessage(array(
+            'QueueUrl'              => SQS_OUTBOX,
+            'ReceiptHandle'         => $receiptHandle
+        ));
+    }
+}
 ?>
 <!doctype html>
 <html>
@@ -55,7 +76,10 @@ $messageResult = $sqs->receiveMessage(array(
     </div>
 	<div class="row">
         <div class="col-md-1"></div>
-    	<div class="col-md-10">     	   
+    	<div class="col-md-10">  
+        	<?php if($message != ''){ ?>
+        	<p class="bg-warning"><?=$message?></p>
+        	<?php } ?>   	   
     	    <table class="table">
                 <tr>
                     <th>Bucket</th>
@@ -64,20 +88,22 @@ $messageResult = $sqs->receiveMessage(array(
                     <th>Small Link</th>
                 </tr>
             <?php 
-            //print_r($messageResult);
-            if($messageResult->getPath('Messages') != ''){
-                foreach($messageResult->getPath('Messages') as $messages){
-                    $attr = array();
-                    foreach($messages['MessageAttributes'] as $key => $value){
-                        $attr[$key] = $value['StringValue'];
-                        //echo $key.','.$value['StringValue'];
-                    }
-
+            $result = $s3->listBuckets();
+            foreach ($result['Buckets'] as $bucket) {
+                // Each Bucket value will contain a Name and CreationDate
+                if($s3->doesObjectExist($bucket['Name'], IMAGELIST_FILE)){
+                    $txtfile = $s3->getObject([
+                        'Bucket'    => $bucket['Name'],
+                        'Key'       => IMAGELIST_FILE
+                    ]);
+                    $txtbody = $txtfile['Body'];
+                    $lines = explode(PHP_EOL, $txtbody);
+                    $tag = split('######', $lines);
                     echo '<tr>';
-                    echo '<td>'.$attr['s3bucket'].'</td>';
-                    echo '<td>'.$attr['filename'].'</td>';
-                    echo '<td><a href="'.$attr['s3path'].$attr['s3bucket'].'/'.$attr['filename'].'">Link</a></td>';
-                    echo '<td><img src="'.$attr['s3path'].$attr['s3bucket'].'/'.$attr['smallfilename'].'"/></td>';
+                    echo '<td>'.$bucket['Name'].'</td>';
+                    echo '<td>'.$tag[1].'</td>';
+                    echo '<td><a href="'.S3_PATH.$attr['s3bucket'].'/'.$tag[1].'">Link</a></td>';
+                    echo '<td><img src="'.S3_PATH.$attr['s3bucket'].'/'.$tag[2].'"/></td>';
                     echo '</tr>';
                 }
             }
