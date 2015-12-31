@@ -84,8 +84,8 @@ if($messageResult->getPath('Messages') != ''){
                 <tr>
                     <th>Bucket</th>
                     <th>File Name</th>
-                    <th>Normal Link</th>
-                    <th>Small Link</th>
+                    <th>Download Link</th>
+                    <th>Resized Image</th>
                 </tr>
             <?php 
             $result = $s3->listBuckets();
@@ -104,7 +104,7 @@ if($messageResult->getPath('Messages') != ''){
                             echo '<tr>';
                             echo '<td>'.$bucket['Name'].'</td>';
                             echo '<td>'.$tag[1].'</td>';
-                            echo '<td><a href="'.S3_PATH.$bucket['Name'].'/'.$tag[1].'">Link</a></td>';
+                            echo '<td><a href="'.S3_PATH.$bucket['Name'].'/'.$tag[1].'">Click</a></td>';
                             echo '<td><img src="'.S3_PATH.$bucket['Name'].'/'.$tag[2].'"/></td>';
                             echo '</tr>';
                         }
