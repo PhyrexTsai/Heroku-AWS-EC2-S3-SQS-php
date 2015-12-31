@@ -59,6 +59,7 @@ if(!empty($_POST['submit'])){
                     )
                 ),
             ));
+            $message .= "Upload Done.\r\n";
         } catch (Aws\Exception\S3Exception $e) {
             $message .= "There was an error uploading the file.\r\n";
         }
