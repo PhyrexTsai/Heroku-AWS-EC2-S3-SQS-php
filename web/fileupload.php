@@ -99,7 +99,7 @@ if(!empty($_POST['submit'])){
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li class="active"><a href="fileupload.php">Upload<span class="sr-only">(current)</span></a></li>
-					<li><a href="filedownload.php">Show result</a></li>
+					<li><a href="filedownload.php">Resize Files</a></li>
 				</ul>
 			</div>
 		</div>

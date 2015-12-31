@@ -43,7 +43,7 @@ $messageResult = $sqs->receiveMessage(array(
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li><a href="fileupload.php">Upload</a></li>
-					<li class="active"><a href="filedownload.php">Show Result<span class="sr-only">(current)</span></a></li>
+					<li class="active"><a href="filedownload.php">Resize Files<span class="sr-only">(current)</span></a></li>
 				</ul>
 			</div>
 		</div>
