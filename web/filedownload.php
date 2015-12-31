@@ -90,9 +90,10 @@ if($messageResult->getPath('Messages') != ''){
             <?php 
             $result = $s3->listBuckets();
             foreach ($result['Buckets'] as $bucket) {
-                echo $bucket['Name'].'<br/>';
                 // Each Bucket value will contain a Name and CreationDate
+                echo $s3->doesObjectExist($bucket['Name'], SMALLIMAGELIST_FILE);
                 if($s3->doesObjectExist($bucket['Name'], SMALLIMAGELIST_FILE)){
+                    echo '#';
                     $txtfile = $s3->getObject([
                         'Bucket'    => $bucket['Name'],
                         'Key'       => SMALLIMAGELIST_FILE
